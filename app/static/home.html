@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+<title>SoCalSim.Racing</title>
+
+<style>
+    body {
+    margin: 0;
+    height: 100vh;
+    background: #000;
+    background-image: url('/static/scsrweb-blk.svg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+/* Floating button positioned on top of background */
+.floating-button {
+    position: absolute;
+    top: 42%;               /* natural vertical center would be 50 — so 50 - 10 = 40% */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px 25px;
+    background: #111;
+    border: 2px solid #ffcc33;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 1.2em;
+    color: white;
+    box-shadow: 0 0 8px #ffcc33;
+    transition: all 0.4s ease;
+}
+
+/* Glow hover */
+.floating-button:hover {
+    border-color: #ff3399;
+    box-shadow:
+        0 0 10px #ffcc33,
+        0 0 20px #ff3399,
+        0 0 40px #ff3399;
+}
+
+</style>
+
+</head>
+<body>
+
+<body>
+    <a class="floating-button" href="/leaderboard">Leaderboard</a>
+</body>
+
+</body>
+</html>

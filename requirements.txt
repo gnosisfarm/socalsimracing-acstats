@@ -1,0 +1,5 @@
+ fastapi
+ uvicorn
+ databases
+ sqlite-utils
+ pydantic
