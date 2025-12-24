@@ -1,0 +1,67 @@
+services:
+  acstats:
+    build: .
+    container_name: acstats_api
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - DB_PATH=/app/data/ac_laptimes.db
+    networks:
+      - web
+  
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    networks:
+      - web
+    depends_on:
+      - acstats
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default1.conf   # ONLY THIS
+      - ./nginx/webroot:/var/www/letsencrypt
+      - ./data/letsencrypt:/etc/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: unless-stopped
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    depends_on:
+      - nginx
+    volumes:
+      - ./nginx/webroot:/var/www/letsencrypt
+      - ./data/letsencrypt:/etc/letsencrypt
+      - ./nginx:/nginx-config
+      - /var/run/docker.sock:/var/run/docker.sock
+    entrypoint: >
+      sh -c "
+      echo 'Waiting for Nginx...' &&
+      sleep 5 &&
+      certbot certonly --webroot -w /var/www/letsencrypt -d socalsim.racing --email INSERT_EMAIL@GMAIL.COM --agree-tos --non-interactive && cp /nginx-config/default-https.conf /nginx-config/default.conf && docker exec nginx nginx -s reload"
+
+  certbot-renew:
+    image: certbot/certbot
+    container_name: certbot-renew
+    volumes:
+      - ./nginx/webroot:/var/www/letsencrypt
+      - ./data/letsencrypt:/etc/letsencrypt
+      - ./nginx:/nginx-config
+    entrypoint: >
+      sh -c "
+      while true; do
+        certbot renew --webroot -w /var/www/letsencrypt &&
+        nginx -s reload;
+        sleep 12h;
+      done
+      "
+    restart: unless-stopped
+
+networks:
+    web:
+      driver: bridge
