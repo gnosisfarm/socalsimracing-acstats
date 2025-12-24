@@ -11,7 +11,8 @@ ACStats is made of two components:
 After AC server (acs.exe) is started, run the log watch script. 
 
 ```python
-python ac_server_log_watch.py
+python .\ac_server_log_watch.py
+
 ```
 
 
