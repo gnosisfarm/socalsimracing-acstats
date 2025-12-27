@@ -21,5 +21,5 @@ python .\ac_server_log_watch.py
 The App needs to be built which ends up being a uvicorn listener on 8080. Create a DB file so app.py can refer to it. ACstats app will initalize the database schema. Docker compose also sets up the nginx reverse proxy for socalsim.racing with Lets Encrypt Certbot.
 
 ```bash
-docker-compose up ---build -d
+docker-compose up --build -d
 ```
